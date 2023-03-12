@@ -21,7 +21,7 @@ class DrawResultServiceImplTest {
                 .setSlot2(Color.BLACK)
                 .setSlot3(Color.GREEN)
                 .setSlot4(Color.YELLOW);
-        drawResultService.calculateDrawResultFor(slots);
+        drawResultService.calculateDrawResultFor(slots, 0);
 
         assertEquals(DrawResult.LOSS, drawResultService.getResult());
     }
@@ -33,8 +33,20 @@ class DrawResultServiceImplTest {
                 .setSlot2(Color.BLACK)
                 .setSlot3(Color.BLACK)
                 .setSlot4(Color.BLACK);
-        drawResultService.calculateDrawResultFor(slots);
+        drawResultService.calculateDrawResultFor(slots, 4);
 
         assertEquals(DrawResult.WIN, drawResultService.getResult());
+    }
+
+    @Test
+    public void givenVariousColorsAndJackpotNotEmptyThenTryAgain() {
+        var slots = new Slots()
+                .setSlot1(Color.BLACK)
+                .setSlot2(Color.BLACK)
+                .setSlot3(Color.GREEN)
+                .setSlot4(Color.YELLOW);
+        drawResultService.calculateDrawResultFor(slots, 5);
+
+        assertEquals(DrawResult.TRY_AGAIN, drawResultService.getResult());
     }
 }

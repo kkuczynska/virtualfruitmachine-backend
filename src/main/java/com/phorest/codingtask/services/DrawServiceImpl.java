@@ -14,17 +14,26 @@ public class DrawServiceImpl implements DrawService {
     Slots slots;
     @Autowired
     DrawResultService drawResultService;
+    @Autowired
+    JackpotService jackpotService;
 
     @Override
     public Draw draw() {
         getSlotsColors();
         calculateDrawResult();
+        updateJackpot();
 
         return new Draw(slots, getUserMessage());
     }
 
     private String getUserMessage() {
-        return getResult().getMessage();
+        return getResult().equals(DrawResult.WIN)
+                ? getResult().getMessage() + " " + getCurrentJackpot()
+                : getResult().getMessage();
+    }
+
+    private int getCurrentJackpot() {
+        return jackpotService.getJackpot().getCurrentJackpot();
     }
 
     private void getSlotsColors() {
@@ -37,7 +46,12 @@ public class DrawServiceImpl implements DrawService {
     }
 
     private void calculateDrawResult() {
-        drawResultService.calculateDrawResultFor(slots);
+        drawResultService.calculateDrawResultFor(slots, getCurrentJackpot());
+    }
+
+    private void updateJackpot() {
+        if (getResult().equals(DrawResult.TRY_AGAIN))
+            jackpotService.updateJackpot();
     }
 
     private Color getRandomColor() {

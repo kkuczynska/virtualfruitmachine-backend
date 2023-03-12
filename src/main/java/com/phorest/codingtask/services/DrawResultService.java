@@ -4,7 +4,7 @@ import com.phorest.codingtask.entity.DrawResult;
 import com.phorest.codingtask.entity.Slots;
 
 public interface DrawResultService {
-    void calculateDrawResultFor(Slots slots);
+    void calculateDrawResultFor(Slots slots, int currentJackpot);
 
     DrawResult getResult();
 }

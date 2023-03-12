@@ -9,10 +9,12 @@ public class DrawResultServiceImpl implements DrawResultService {
     private DrawResult drawResult;
 
     @Override
-    public void calculateDrawResultFor(Slots slots) {
-        drawResult = slots.allHaveSameColor()
+    public void calculateDrawResultFor(Slots slots, int currentJackpot) {
+        drawResult = slots.allHaveSameColor() && currentJackpot > 0
                 ? DrawResult.WIN
-                : DrawResult.LOSS;
+                : currentJackpot == 0
+                ? DrawResult.LOSS
+                : DrawResult.TRY_AGAIN;
     }
 
     @Override
