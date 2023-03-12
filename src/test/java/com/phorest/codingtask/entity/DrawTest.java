@@ -12,11 +12,12 @@ class DrawTest {
                 .setSlot2(Color.YELLOW)
                 .setSlot3(Color.WHITE)
                 .setSlot4(Color.BLACK);
-        var draw = new Draw(slots);
+        var draw = new Draw(slots, "You lost");
 
         assertEquals("#000000", draw.getSlots().getSlot1().getHex());
         assertEquals("#FFFF00", draw.getSlots().getSlot2().getHex());
         assertEquals("#FFFFFF", draw.getSlots().getSlot3().getHex());
         assertEquals("#000000", draw.getSlots().getSlot4().getHex());
+        assertEquals("You lost", draw.getUserMessage());
     }
 }
